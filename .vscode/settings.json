@@ -1,0 +1,5 @@
+{
+    "python.pythonPath": "C:\\dev\\.virtualenvs\\soccerDB_env\\Scripts\\python.exe",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
+}
