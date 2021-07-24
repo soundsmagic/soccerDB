@@ -12,6 +12,42 @@ class Database:
         self.connection = pyodbc.connect(self.conn_str)
         self.cursor = self.connection.cursor()
 
-    def fetchCountries(self):
-        self.cursor.execute("SELECT UNIQUE [Home Team] FROM SoccerResults")
-        return self.cursor.fetchall()
+    def FetchCountries(self):
+        self.cursor.execute("SELECT DISTINCT [Home Team] FROM SoccerResults")
+        return sorted([i[0] for i in self.cursor.fetchall()])
+
+    def MatchesPlayed(self, teamOne, teamTwo):
+        self.cursor.execute(
+            f"SELECT COUNT(CASE WHEN ([Home Team] = '{teamOne}' AND [Away Team] = '{teamTwo}') OR ([Home Team] = '{teamTwo}' AND [Away Team] = '{teamOne}') THEN 1 END) AS Matches FROM SoccerResults"
+        )
+        return self.cursor.fetchone()[0]
+
+    def Wins(self, teamOne, teamTwo):
+        self.cursor.execute(
+            f"SELECT COUNT(CASE WHEN ([Home Team] = '{teamOne}' AND [Away Team] = '{teamTwo}' AND [Home Score] > [Away Score]) OR ([Home Team] = '{teamTwo}' AND [Away Team] = '{teamOne}' AND [Away Score] > [Home Score]) THEN 1 END) FROM SoccerResults"
+        )
+        return self.cursor.fetchone()[0]
+
+    def Ties(self, teamOne, teamTwo):
+        self.cursor.execute(
+            f"SELECT COUNT(CASE WHEN ([Home Team] = '{teamOne}' AND [Away Team] = '{teamTwo}' AND [Home Score] = [Away Score]) OR ([Home Team] = '{teamTwo}' AND [Away Team] = '{teamOne}' AND [Away Score] = [Home Score]) THEN 1 END) FROM SoccerResults"
+        )
+        return self.cursor.fetchone()[0]
+
+    def HomeWins(self, teamOne, teamTwo):
+        self.cursor.execute(
+            f"SELECT COUNT(CASE WHEN ([Home Team] = '{teamOne}' AND [Away Team] = '{teamTwo}' AND [Home Score] > [Away Score])THEN 1 END) FROM SoccerResults"
+        )
+        return self.cursor.fetchone()[0]
+
+    def ScoredGoals(self, teamOne, teamTwo):
+        self.cursor.execute(
+            f"SELECT SUM(CASE WHEN ([Home Team] = '{teamOne}' AND [Away Team] = '{teamTwo}') THEN [Home Score] ELSE 0 END + CASE WHEN ([Home Team] = '{teamTwo}' AND [Away Team] = '{teamOne}') THEN [Away Score] ELSE 0 END) FROM SoccerResults"
+        )
+        return self.cursor.fetchone()[0]
+
+    def NeutralMatches(self, teamOne, teamTwo):
+        self.cursor.execute(
+            f"SELECT COUNT(CASE WHEN ([Home Team] = '{teamOne}' AND [Away Team] = '{teamTwo}' AND [NeutralArena] = 1) OR ([Home Team] = '{teamTwo}' AND [Away Team] = '{teamOne}' AND [NeutralArena] = 1) THEN 1 END) FROM SoccerResults"
+        )
+        return self.cursor.fetchone()[0]
