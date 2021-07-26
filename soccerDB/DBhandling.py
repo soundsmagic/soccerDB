@@ -1,4 +1,5 @@
 import pyodbc
+import datetime
 
 
 class Database:
@@ -51,3 +52,10 @@ class Database:
             f"SELECT COUNT(CASE WHEN ([Home Team] = '{teamOne}' AND [Away Team] = '{teamTwo}' AND [NeutralArena] = 1) OR ([Home Team] = '{teamTwo}' AND [Away Team] = '{teamOne}' AND [NeutralArena] = 1) THEN 1 END) FROM SoccerResults"
         )
         return self.cursor.fetchone()[0]
+
+    def EarliestMatch(self, teamOne, teamTwo):
+        self.cursor.execute(
+            f"SELECT TOP 1 [Date], [Tournament Name] FROM SoccerResults WHERE [Home Team] = '{teamOne}' AND [Away Team] = '{teamTwo}' OR ([Home Team] = '{teamTwo}' AND [Away Team] = '{teamOne}') ORDER BY [Date]"
+        )
+        result = self.cursor.fetchone()
+        return f"{result[0].strftime('%Y-%m-%d')} ({result[1]})"
