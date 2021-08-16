@@ -58,4 +58,7 @@ class Database:
             f"SELECT TOP 1 [Date], [Tournament Name] FROM SoccerResults WHERE [Home Team] = '{teamOne}' AND [Away Team] = '{teamTwo}' OR ([Home Team] = '{teamTwo}' AND [Away Team] = '{teamOne}') ORDER BY [Date]"
         )
         result = self.cursor.fetchone()
-        return f"{result[0].strftime('%Y-%m-%d')} ({result[1]})"
+        if result is not None:
+            return f"{result[0].strftime('%Y-%m-%d')} ({result[1]})"
+        else:
+            return "These teams have never met."
