@@ -9,13 +9,14 @@ class Application(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
         self.master = master
-        self.resultFrame = tk.Frame(self.master)
-        self.resultFrame.grid(row=2, column=0, padx=(50, 0), pady=(40, 0))
         self.dbObject = DBhandling.Database()
         self.countryList = self.dbObject.FetchCountries()
         master.title("International Soccer Results Database App")
         master.geometry("1000x461")
         master.iconbitmap("images/football.ico")
+        master.grid_columnconfigure(1, minsize=250)
+        master.grid_columnconfigure(2, minsize=250)
+        master.grid_columnconfigure(0, minsize=250)
         self.label_font = Font(family="Arial", size=14)
         self.create_background()
         self.create_static_labels()
@@ -40,11 +41,15 @@ class Application(tk.Frame):
     def create_dropdowns(self):
         self.firstteam = tk.StringVar()
         self.dropdown_firstteam = ttk.Combobox(self.master, values=self.countryList)
-        self.dropdown_firstteam.grid(row=0, column=1, padx=(50, 0), pady=(10, 0))
+        self.dropdown_firstteam.grid(
+            row=0, column=1, padx=(50, 0), pady=(10, 0), sticky="w"
+        )
         self.dropdown_firstteam.current(1)
         self.secondteam = tk.StringVar()
         self.dropdown_secondteam = ttk.Combobox(self.master, values=self.countryList)
-        self.dropdown_secondteam.grid(row=1, column=1, padx=(50, 0), pady=(10, 0))
+        self.dropdown_secondteam.grid(
+            row=1, column=1, padx=(50, 0), pady=(10, 0), sticky="w"
+        )
         self.dropdown_secondteam.current(1)
 
     def create_static_labels(self):
@@ -62,28 +67,28 @@ class Application(tk.Frame):
         )
 
     def create_hidden_result_labels(self):
-        self.label_chosenTeams = self.MakeLabel(self.resultFrame, "Chosen teams:")
-        self.label_matchesPlayed = self.MakeLabel(self.resultFrame, "Matches played:")
-        self.label_wins = self.MakeLabel(self.resultFrame, "Wins:")
-        self.label_ties = self.MakeLabel(self.resultFrame, "Tied matches:")
-        self.label_homeWins = self.MakeLabel(self.resultFrame, "Home wins:")
-        self.label_scoredGoals = self.MakeLabel(self.resultFrame, "Scored goals:")
+        self.label_chosenTeams = self.MakeLabel(self.master, "Chosen teams:")
+        self.label_matchesPlayed = self.MakeLabel(self.master, "Matches played:")
+        self.label_wins = self.MakeLabel(self.master, "Wins:")
+        self.label_ties = self.MakeLabel(self.master, "Tied matches:")
+        self.label_homeWins = self.MakeLabel(self.master, "Home wins:")
+        self.label_scoredGoals = self.MakeLabel(self.master, "Scored goals:")
         self.label_neutralMatches = self.MakeLabel(
-            self.resultFrame, "Matches on neutral ground:"
+            self.master, "Matches on neutral ground:"
         )
-        self.label_earliestMatch = self.MakeLabel(self.resultFrame, "Earliest match:")
-        self.label_chosenFirstTeam = self.MakeLabel(self.resultFrame, "")
-        self.label_chosenSecondTeam = self.MakeLabel(self.resultFrame, "")
-        self.label_matchesPlayedResult = self.MakeLabel(self.resultFrame, "")
-        self.label_firstTeamWins = self.MakeLabel(self.resultFrame, "")
-        self.label_secondTeamWins = self.MakeLabel(self.resultFrame, "")
-        self.label_tiedMatches = self.MakeLabel(self.resultFrame, "")
-        self.label_homeWinsFirstTeam = self.MakeLabel(self.resultFrame, "")
-        self.label_homeWinsSecondTeam = self.MakeLabel(self.resultFrame, "")
-        self.label_scoredGoalsFirstTeam = self.MakeLabel(self.resultFrame, "")
-        self.label_scoredGoalsSecondTeam = self.MakeLabel(self.resultFrame, "")
-        self.label_neutralMatchesPlayed = self.MakeLabel(self.resultFrame, "")
-        self.label_earliestMatchResult = self.MakeLabel(self.resultFrame, "")
+        self.label_earliestMatch = self.MakeLabel(self.master, "Earliest match:")
+        self.label_chosenFirstTeam = self.MakeLabel(self.master, "")
+        self.label_chosenSecondTeam = self.MakeLabel(self.master, "")
+        self.label_matchesPlayedResult = self.MakeLabel(self.master, "")
+        self.label_firstTeamWins = self.MakeLabel(self.master, "")
+        self.label_secondTeamWins = self.MakeLabel(self.master, "")
+        self.label_tiedMatches = self.MakeLabel(self.master, "")
+        self.label_homeWinsFirstTeam = self.MakeLabel(self.master, "")
+        self.label_homeWinsSecondTeam = self.MakeLabel(self.master, "")
+        self.label_scoredGoalsFirstTeam = self.MakeLabel(self.master, "")
+        self.label_scoredGoalsSecondTeam = self.MakeLabel(self.master, "")
+        self.label_neutralMatchesPlayed = self.MakeLabel(self.master, "")
+        self.label_earliestMatchResult = self.MakeLabel(self.master, "")
 
     def generate_results(self):
         if self.dropdown_firstteam.get() == self.dropdown_secondteam.get():
@@ -192,5 +197,13 @@ class Application(tk.Frame):
             self.master, text="Get facts", command=self.generate_results
         )
         self.getFactsButton.grid(
-            row=0, rowspan=2, column=2, padx=(20, 0), pady=(10, 0), ipadx=25, ipady=5
+            row=0,
+            rowspan=2,
+            column=2,
+            columnspan=3,
+            sticky="w",
+            padx=(20, 0),
+            pady=(10, 0),
+            ipadx=25,
+            ipady=5,
         )
