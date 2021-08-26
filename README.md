@@ -1,1 +1,9 @@
-Placeholder for some enthralling and enlightening information about this project
+Desktop app built in Python with tkinter and an SQL Server connection with pyodbc. (Screenshot in the images folder!)
+
+When we had our database course in school, we learnt about Microsoft SQL Server and the SQL syntax. But we never got to connect to our database from "the outside world", which I found disappointing. After all, that's how databases are used in the real world! So when I decided to start learning Python on my own two months later, I got the idea to combine three areas I wanted to learn more about: Python, connecting to an SQL Server database from "the outside", and building a desktop app with a GUI (something we hadn't done yet in school).
+
+I read about some tools for the GUI, and decided that although there are awesome and modern tools available, it wouldn't hurt to have some knowledge about tkinter, the simple GUI tool built into Python. Plus, it seemed a bit easier to get into, seeing that this would be my first desktop GUI experience.
+
+Pyodbc seemed a popular and well made tool for the database stuff, so I decided on that. The database was the one I set up in the final assignment of the course I read, it is built from this spreadsheet with soccer results that I found on Kaggle: https://www.kaggle.com/martj42/international-football-results-from-1872-to-2017. In the images folder there's a screenshot of the table design. If you want to set this up yourself, I had a bit of trouble with the boolean nature of the column NeutralArena, so make sure to get that imported correctly. You may need to do some editing before importing, or import that column to a temporary one and then convert it with SQL.
+
+Since this was more of a learning experience to get it all together and working, I didn't put that much time into optimizing the GUI! The result table could benefit from a more readable look, and there's a small glitch in the upper two rows when the result labels get loaded in - something I didn't invest time in to solve! (As always, a solution to this and other general suggestions of improvements are always welcome! We're all in this to learn!)
